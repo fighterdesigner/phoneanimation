@@ -192,7 +192,7 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
 	progressWidth(0);
 
 
-	gsap.timeline({
+	let tl = gsap.timeline({
 		scrollTrigger: {
 			trigger: "main",
 			start: "center center",
@@ -200,12 +200,14 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
 			scrub: true,
 			pin: true,
 		}
-	})
-	.from(".phone-holder", {ease: "power4", scale: 0.8})
+	});
+  
+	tl.from(".phone-holder", {scale: 0.8})
 	.from(".first-para", {opacity: 0, y: 100})
 	.to(".phone-holder", {scale: 0.5, x: -150})
 	.from(".svg-container", {opacity: 0})
-	.to(".number-container", {rotation: -90})
+  
+	tl.to(".number-container", {rotation: -90})
 	.to(".progress-number", {opacity: 1, rotation: 90})
 	.add(() => progressWidth(25))
 	.add(() => updateNumber(2))
