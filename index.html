@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>scroll effect</title>
+</head>
+<style type="text/css">
+	
+	* {
+		box-sizing: border-box;
+		font-family: sans-serif;
+	}
+	html, body {
+		margin: 0;
+		padding: 0;
+	}
+	main {
+		height: 100vh;
+		background-color: white;
+		display: flex;
+		flex-direction: row;
+		align-items: stretch;
+		justify-content: center;
+		overflow: hidden;
+	}
+	main #phone-container {
+		width: 100%;
+		height: 100%;
+		background-color: #F4F4F4
+	}
+	#phone-container {
+		background-color: transparent;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.phone-holder {
+		position: relative;
+		transform-style: preserve-3d;
+	}
+	.screens {
+		position: absolute;
+		background-color: transparent;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.screens .screens-conatiner {
+		height: 70%;
+		width: 85%;
+		overflow: hidden;
+	}
+	.screens-conatiner .screens-holder {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: flex-start;
+	}
+	.screens .screens-holder img {
+		width: 100%;
+	}
+	#phone-container .phone-holder .phone-img {
+		height: 400px;
+	} 
+
+	#text-container {
+		display: none;
+	}
+	.svg-container {
+		position: absolute;
+		transform: translate(-93%, -50%);
+		top: 50%;
+		left: 50%
+	}
+	.svg-container .progress-number {
+		height: 50%;
+		position: absolute;
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		align-items: flex-start;
+		transform-origin: center bottom;
+	}
+	.svg-container .progress-number span {
+		width: 30px;
+		height: 30px;
+		border-radius: 50%;
+		text-align: center;
+		background-color: #ff6600;
+		color: white;
+		transform: translateY(-11px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.circle-progress {
+		transform: rotateZ(-90deg);
+		transform-origin: center;
+	}
+	.first-para, .second-para, .third-para, .fourth-para, .fifth-para {
+		width: 230px;
+		position: absolute;
+		transform: translateX(100%);
+	}
+</style>
+<body>
+	<div style="height: 100vh"></div>
+<main>
+
+	<div id="phone-container">
+		<div class="phone-holder">
+			<img class="phone-img" src="imgs/phone.png">
+
+			<div class="screens">
+			<div class="screens-conatiner">
+				<div class="screens-holder">
+					<img src="imgs/image-1.png">
+					<img src="imgs/image-2.png">
+					<img src="imgs/image-3.png">
+					<img src="imgs/image-4.png">
+					<img src="imgs/image-5.png">
+				</div>
+			</div>
+			</div>
+
+		</div>
+
+		<div class="first-para">
+			<h3>What is Lorem Ipsum? 1</h3>
+			<p>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		</div>
+
+		<div class="second-para">
+			<h3>What is Lorem Ipsum? 2</h3>
+			<p>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		</div>
+
+		<div class="third-para">
+			<h3>What is Lorem Ipsum? 3</h3>
+			<p>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		</div>
+
+		<div class="fourth-para">
+			<h3>What is Lorem Ipsum? 4</h3>
+			<p>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		</div>
+
+		<div class="fifth-para">
+			<h3>What is Lorem Ipsum? 5</h3>
+			<p>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+		</div>
+
+	</div>
+
+	<div class="svg-container">
+	<svg height="350" width="350">
+		<circle cx="175" cy="175" r="173" stroke="#aaaaaa" stroke-width="1" fill="transparent" />
+		<circle class="circle-progress" cx="175" cy="175" r="173" stroke="#ff6600" stroke-width="2" fill="transparent" />
+	</svg>
+	<div class="progress-number">
+		<span class="number-container">
+			<p class="section-number">1</p>
+		</span>
+	</div>
+	</div>
+	
+</main>
+<div style="height: 200vh"></div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/gsap.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.1/ScrollTrigger.min.js"></script>
+
+<script type="text/javascript">
+
+	const progressCircle = document.querySelector(".circle-progress");
+	const sectionNumber = document.querySelector(".section-number");
+
+	const radius = progressCircle.r.baseVal.value;
+	const circumference = radius * 2 * Math.PI;
+
+	progressCircle.style.strokeDasharray = circumference; 
+
+	progressWidth(0);
+
+
+	gsap.timeline({
+		scrollTrigger: {
+			trigger: "main",
+			start: "center center",
+			end: "bottom top",
+			scrub: true,
+			pin: true,
+		}
+	})
+	.from(".phone-holder", {ease: "power4", scale: 0.8})
+	.from(".first-para", {opacity: 0, y: 100})
+	.to(".phone-holder", {scale: 0.5, x: -150})
+	.from(".svg-container", {opacity: 0})
+	.to(".number-container", {rotation: -90})
+	.to(".progress-number", {opacity: 1, rotation: 90})
+	.add(() => progressWidth(25))
+	.add(() => updateNumber(2))
+	.to(".first-para", {opacity: 0, y: -100})
+	.from(".second-para", {opacity: 0, y: 100})
+	.to(".screens-holder", {translateX: -100 + "%"})
+	.to(".number-container", {rotation: -180})
+	.to(".progress-number", {opacity: 1, rotation: 180})
+	.add(() => progressWidth(50))
+	.add(() => updateNumber(3))
+	.to(".second-para", {opacity: 0, y: -100})
+	.from(".third-para", {opacity: 0, y: 100})
+	.to(".screens-holder", {translateX: -200 + "%"})
+	.to(".number-container", {rotation: -270})
+	.to(".progress-number", {opacity: 1, rotation: 270})
+	.add(() => progressWidth(75))
+	.add(() => updateNumber(4))
+	.to(".third-para", {opacity: 0, y: -100})
+	.from(".fourth-para", {opacity: 0, y: 100})
+	.to(".screens-holder", {translateX: -300 + "%"})
+	.to(".number-container", {rotation: -360})
+	.to(".progress-number", {opacity: 1, rotation: 360})
+	.add(() => progressWidth(100))
+	.add(() => updateNumber(5))
+	.to(".fourth-para", {opacity: 0, y: -100})
+	.from(".fifth-para", {opacity: 0, y: 100})
+	.to(".screens-holder", {translateX: -400 + "%"})
+
+
+
+	function progressWidth(number) {
+		progressCircle.style.strokeDashoffset = circumference - (number / 100) * circumference;
+	}
+
+	function updateNumber(number) {
+		sectionNumber.innerText = number;
+	}
+</script>
+</body>
+</html>
