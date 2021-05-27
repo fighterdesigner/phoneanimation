@@ -111,7 +111,12 @@
   @media only screen and (max-width: 799px) {
     
     .first-para, .second-para, .third-para, .fourth-para, .fifth-para {
-      text-align: center
+      text-align: center;
+      transform: translateY(100%);
+    }
+    
+    .svg-container {
+      display: none
     }
     
   }
@@ -212,7 +217,12 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
 		}
 	});
   
-	tl.from(".phone-holder", {scale: 0.8})
+  ScrollTrigger.matchMedia({
+    "(max-width: 799px)": function(){
+      tl.to(".phone-holder", {scale: 0.8, y: -150})
+    },
+    "(min-width: 799px)": function() {
+    tl.from(".phone-holder", {scale: 0.8})
 	.from(".first-para", {opacity: 0, y: 100})
 	.to(".phone-holder", {scale: 0.5, x: -150})
 	.add(() => updateNumber(1))
@@ -248,9 +258,10 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
 	.add(() => updateNumber(5), "-=1")
 	.to(".fourth-para", {opacity: 0, y: -100}, "-=1")
 	.from(".fifth-para", {opacity: 0, y: 100}, "-=1")
-	.to(".screens-holder", {translateX: -400 + "%"}, "-=1")
-
-
+	.to(".screens-holder", {translateX: -400 + "%"}, "-=1")  
+    }
+  })
+  
 
 	function progressWidth(number) {
 		progressCircle.style.strokeDashoffset = circumference - (number / 100) * circumference;
