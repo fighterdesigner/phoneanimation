@@ -112,12 +112,15 @@
     
     .first-para, .second-para, .third-para, .fourth-para, .fifth-para {
       text-align: center;
-      transform: translateY(100%);
+      transform: translate(0,200%);
     }
     
     .svg-container {
-      display: none
-    }
+		position: absolute;
+		transform: translate(-50%, -95%);
+		top: 50%;
+		left: 50%
+	  }
     
   }
 </style>
@@ -219,7 +222,43 @@ Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
   
   ScrollTrigger.matchMedia({
     "(max-width: 799px)": function(){
-      tl.to(".phone-holder", {scale: 0.8, y: -150})
+      tl.from(".phone-holder", {scale: 0.8})
+	.from(".first-para", {opacity: 0, y: 100})
+	.to(".phone-holder", {scale: 0.5, y: -150})
+	.add(() => updateNumber(1))
+	.from(".svg-container", {opacity: 0})
+  
+	tl.to(".number-container", {rotation: -90}, "+=1")
+	.to(".progress-number", {opacity: 1, rotation: 90}, "-=1")
+	.add(() => progressWidth(25), "-=1")
+	.add(() => updateNumber(2), "-=1")
+	.to(".first-para", {opacity: 0, y: -100}, "-=1")
+	.from(".second-para", {opacity: 0, y: 100}, "-=1")
+	.to(".screens-holder", {translateX: -100 + "%"}, "-=1")
+  
+	tl.to(".number-container", {rotation: -180}, "+=1")
+	.to(".progress-number", {opacity: 1, rotation: 180}, "-=1")
+	.add(() => progressWidth(50), "-=1")
+	.add(() => updateNumber(3), "-=1")
+	.to(".second-para", {opacity: 0, y: -100}, "-=1")
+	.from(".third-para", {opacity: 0, y: 100}, "-=1")
+	.to(".screens-holder", {translateX: -200 + "%"}, "-=1")
+  
+	tl.to(".number-container", {rotation: -270}, "+=1")
+	.to(".progress-number", {opacity: 1, rotation: 270}, "-=1")
+	.add(() => progressWidth(75), "-=1")
+	.add(() => updateNumber(4), "-=1")
+	.to(".third-para", {opacity: 0, y: -100}, "-=1")
+	.from(".fourth-para", {opacity: 0, y: 100}, "-=1")
+	.to(".screens-holder", {translateX: -300 + "%"}, "-=1")
+  
+	tl.to(".number-container", {rotation: -360}, "+=1")
+	.to(".progress-number", {opacity: 1, rotation: 360}, "-=1")
+	.add(() => progressWidth(100), "-=1")
+	.add(() => updateNumber(5), "-=1")
+	.to(".fourth-para", {opacity: 0, y: -100}, "-=1")
+	.from(".fifth-para", {opacity: 0, y: 100}, "-=1")
+	.to(".screens-holder", {translateX: -400 + "%"}, "-=1")
     },
     "(min-width: 799px)": function() {
     tl.from(".phone-holder", {scale: 0.8})
